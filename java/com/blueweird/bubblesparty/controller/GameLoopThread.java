@@ -44,7 +44,7 @@ public class GameLoopThread extends Thread {
 
             // Create a new bubble
             if(startTime > nextSpawnTime) {
-                createBubble(rnd.nextInt() % 4);
+                createBubble(rnd.nextInt(4));
 
                 // TODO: Improve the random generation of bubbles
                 nextSpawnTime = System.currentTimeMillis()+ 500 + rnd.nextLong() % 1500;
