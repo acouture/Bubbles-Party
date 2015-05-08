@@ -9,4 +9,8 @@ public class Bubble {
     public Bubble(int c) {
         color = c;
     }
+
+    public int getColor() {
+        return color;
+    }
 }

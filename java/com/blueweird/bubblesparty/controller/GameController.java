@@ -45,6 +45,7 @@ public class GameController {
     public void spriteTouched(int num) {
         gameView.removeSprite(num);
         gameModel.removeBubble(num);
+        gameModel.incScore(1);
     }
 
     public GameView getGameView() {
