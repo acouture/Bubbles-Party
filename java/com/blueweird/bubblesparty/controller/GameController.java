@@ -14,7 +14,7 @@ public class GameController {
 
     private GameModel gameModel;
     private GameView gameView;
-    private GameLoopThread gameLoopThread;
+    private MainLoopThread mainLoopThread;
 
     public GameController(Context context) {
         gameModel = new GameModel();
@@ -22,17 +22,17 @@ public class GameController {
     }
 
     public void startThread() {
-        gameLoopThread = new GameLoopThread(gameModel, gameView);
-        gameLoopThread.setRunning(true);
-        gameLoopThread.start();
+        mainLoopThread = new GameThread(gameModel, gameView);
+        mainLoopThread.setRunning(true);
+        mainLoopThread.start();
     }
 
     public void stopThread() {
         boolean retry = true;
-        gameLoopThread.setRunning(false);
+        mainLoopThread.setRunning(false);
         while (retry) {
             try {
-                gameLoopThread.join();
+                mainLoopThread.join();
                 retry = false;
             } catch (InterruptedException e) {}
         }
