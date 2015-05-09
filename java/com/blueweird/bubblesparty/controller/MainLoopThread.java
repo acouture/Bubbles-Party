@@ -5,8 +5,6 @@ import android.graphics.Canvas;
 import com.blueweird.bubblesparty.model.GameModel;
 import com.blueweird.bubblesparty.view.GameView;
 
-import java.util.Random;
-
 /**
  * Created by blueweird on 06/05/2015.
  */

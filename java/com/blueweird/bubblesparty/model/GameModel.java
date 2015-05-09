@@ -16,8 +16,14 @@ public class GameModel {
         score = 0;
     }
 
-    public void addBubble(int color) {
-        bubbles.add(new Bubble(color));
+    public void update() {
+        for(Bubble bubble: bubbles) {
+            bubble.update();
+        }
+    }
+
+    public void addBubble(Bubble bubble) {
+        bubbles.add(bubble);
     }
 
     public void removeBubble(int num) {

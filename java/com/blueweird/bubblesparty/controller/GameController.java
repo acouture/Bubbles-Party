@@ -1,7 +1,9 @@
 package com.blueweird.bubblesparty.controller;
 
 import android.content.Context;
+import android.view.MotionEvent;
 
+import com.blueweird.bubblesparty.model.Bubble;
 import com.blueweird.bubblesparty.model.GameModel;
 import com.blueweird.bubblesparty.view.GameView;
 
@@ -38,9 +40,25 @@ public class GameController {
         }
     }
 
-//    public void setRunning(boolean run) {
-//        running = run;
-//    }
+    public void onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            float x = event.getX();
+            float y = event.getY();
+
+            synchronized (gameView.getHolder()) {
+                for (int i = gameModel.getBubbles().size() - 1; i >= 0; i--) {
+                    Bubble bubble = gameModel.getBubbles().get(i);
+                    if (bubble.isCollision(x, y)) {
+                        spriteTouched(i);
+//                        sprites.remove(sprite);
+//                        temps.add(new TempSprite(temps, this, x, y, bmpBlood));
+//                        score++;
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
     public void spriteTouched(int num) {
         gameView.removeSprite(num);

@@ -1,6 +1,6 @@
 package com.blueweird.bubblesparty.controller;
 
-import com.blueweird.bubblesparty.R;
+import com.blueweird.bubblesparty.model.Bubble;
 import com.blueweird.bubblesparty.model.GameModel;
 import com.blueweird.bubblesparty.view.GameView;
 
@@ -23,32 +23,19 @@ public class GameThread extends MainLoopThread {
 
     @Override
     protected void loop() {
-        if(rnd.nextInt(1000) < spawnRate) {
+        if (rnd.nextInt(1000) < spawnRate) {
             // Create a new bubble
             createBubble(rnd.nextInt(4));
             spawnRate = 0;
         }
         spawnRate += spawnRateInc;
+        gameModel.update();
     }
+
     private boolean createBubble(int bubble_color) {
-        switch(bubble_color) {
-            case 0:
-                gameView.addSprite(R.drawable.bubble_blue);
-                break;
-            case 1:
-                gameView.addSprite(R.drawable.bubble_green);
-                break;
-            case 2:
-                gameView.addSprite(R.drawable.bubble_red);
-                break;
-            case 3:
-                gameView.addSprite(R.drawable.bubble_yellow);
-                break;
-            default:
-                return false;
-        }
-        gameModel.addBubble(bubble_color);
+        Bubble bubble = new Bubble(bubble_color, gameView);
+        gameModel.addBubble(bubble);
+        gameView.addSprite(bubble.getSprite());
         return true;
     }
 }
-

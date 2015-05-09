@@ -70,38 +70,33 @@ public class GameView extends SurfaceView {
 //        canvas.drawText("Score : " + score, 10, 50, score_paint);
     }
 
-    private Sprite createSprite(int resource) {
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(), resource);
-        return new Sprite(this, bmp);
-    }
-
     public void removeSprite(int num) {
         sprites.remove(num);
     }
 
-    public void addSprite(int resource) {
-        sprites.add(createSprite(resource));
+    public void addSprite(Sprite sprite) {
+        sprites.add(sprite);
     }
 
     public boolean onTouchEvent(MotionEvent event) {
 
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            float x = event.getX();
-            float y = event.getY();
+//        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//            float x = event.getX();
+//            float y = event.getY();
 
-            synchronized (getHolder()) {
-                for (int i = sprites.size() - 1; i >= 0; i--) {
-                    Sprite sprite = sprites.get(i);
-                    if (sprite.isCollision(x, y)) {
-                        controller.spriteTouched(i);
-//                        sprites.remove(sprite);
-//                        temps.add(new TempSprite(temps, this, x, y, bmpBlood));
-//                        score++;
-                        break;
-                    }
-                }
-            }
-        }
+                controller.onTouchEvent(event);
+//                for (int i = sprites.size() - 1; i >= 0; i--) {
+//                    Sprite sprite = sprites.get(i);
+//                    if (sprite.isCollision(x, y)) {
+//                        controller.spriteTouched(i);
+////                        sprites.remove(sprite);
+////                        temps.add(new TempSprite(temps, this, x, y, bmpBlood));
+////                        score++;
+//                        break;
+//                    }
+//                }
+//            }
+//        }
         return true;
     }
 }
