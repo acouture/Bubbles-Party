@@ -15,6 +15,7 @@ public class MainActivity extends Activity {
 
     // TODO: Add the UI with score and buttons
     // TODO: Create a menu
+    // TODO: Optimize memory with sprite loads
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
