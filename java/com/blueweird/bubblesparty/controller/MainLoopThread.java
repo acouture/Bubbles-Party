@@ -1,7 +1,5 @@
 package com.blueweird.bubblesparty.controller;
 
-import android.graphics.Canvas;
-
 import com.blueweird.bubblesparty.model.GameModel;
 import com.blueweird.bubblesparty.view.GameView;
 
@@ -12,12 +10,7 @@ public abstract class MainLoopThread extends Thread {
     protected static final long FPS = 20;
     protected boolean running = false;
 
-    protected GameModel gameModel;
-    protected GameView gameView;
-
-    public MainLoopThread(GameModel model, GameView view) {
-        gameModel = model;
-        gameView = view;
+    public MainLoopThread() {
     }
 
     public void setRunning(boolean run) {
@@ -32,22 +25,10 @@ public abstract class MainLoopThread extends Thread {
 
         while (running) {
             startTime = System.currentTimeMillis();
-            Canvas c = null;
 
             // Does what the game has to do
             loop();
-
-            // Repaint the view with the canvas
-            try {
-                c = gameView.getHolder().lockCanvas();
-                synchronized (gameView.getHolder()) {
-                    gameView.draw(c);
-                }
-            } finally {
-                if (c != null) {
-                    gameView.getHolder().unlockCanvasAndPost(c);
-                }
-            }
+            draw();
 
             // Sleep until the next frame to get the right FPS
             sleepTime = ticksPS - (System.currentTimeMillis() - startTime);
@@ -61,4 +42,5 @@ public abstract class MainLoopThread extends Thread {
     }
 
     protected abstract void loop();
+    protected abstract void draw();
 }

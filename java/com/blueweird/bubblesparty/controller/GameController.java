@@ -2,25 +2,42 @@ package com.blueweird.bubblesparty.controller;
 
 import android.content.Context;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.blueweird.bubblesparty.model.Bubble;
 import com.blueweird.bubblesparty.model.GameModel;
+import com.blueweird.bubblesparty.view.GameUI;
 import com.blueweird.bubblesparty.view.GameView;
 
 /**
  * Created by blueweird on 06/05/2015.
  */
 public class GameController {
-    private static final long FPS = 20;
-    private boolean running = false;
+    private LinearLayout layout;
 
     private GameModel gameModel;
     private GameView gameView;
+    private GameUI userInterface;
     private MainLoopThread mainLoopThread;
 
     public GameController(Context context) {
         gameModel = new GameModel();
         gameView = new GameView(context, this);
+        userInterface = new GameUI(context);
+
+        layout = new LinearLayout(context);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        int uiSize = (int) (0.1 * context.getResources().getDisplayMetrics().heightPixels);
+
+        userInterface.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, uiSize));
+        gameView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+        layout.addView(userInterface);
+        layout.addView(gameView);
+
+        userInterface.setScore(gameModel.getScore().toString());
     }
 
     public void startThread() {
@@ -64,9 +81,14 @@ public class GameController {
         gameView.removeSprite(num);
         gameModel.removeBubble(num);
         gameModel.incScore(1);
+        userInterface.setScore(gameModel.getScore().toString());
     }
 
     public GameView getGameView() {
         return gameView;
+    }
+
+    public LinearLayout getLayout() {
+        return layout;
     }
 }

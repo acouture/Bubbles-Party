@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class GameModel {
     private List<Bubble> bubbles;
-    private int score;
+    private Integer score;
 
     public GameModel() {
         bubbles = new ArrayList<>();

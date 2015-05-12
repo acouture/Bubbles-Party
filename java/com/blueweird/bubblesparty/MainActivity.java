@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
         controller = new GameController(this);
 
         // Set the view
-        setContentView(controller.getGameView());
+        setContentView(controller.getLayout());
     }
 
     @Override
