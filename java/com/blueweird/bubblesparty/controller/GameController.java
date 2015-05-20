@@ -67,6 +67,8 @@ public class GameController {
     }
 
     public void onTouchEvent(MotionEvent event) {
+        if(!mainLoopThread.isRunning())
+            return;
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             float x = event.getX();
             float y = event.getY();
