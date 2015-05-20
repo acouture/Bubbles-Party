@@ -1,42 +1,45 @@
 package com.blueweird.bubblesparty.view;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 /**
  * Created by blueweird on 12/05/2015.
  */
 public class GameUI extends UserInterface {
-    String score;
-    Paint paint;
+    RelativeLayout layout;
+    TextView score;
+    ImageButton button;
 
     public GameUI(Context context) {
         super(context);
-        score = new String();
-        paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setTextSize(80);
+
+        layout = new RelativeLayout(context);
+        LayoutParams params;
+
+        // Init the pause button
+        button = new ImageButton(context);
+        button.setImageResource(android.R.drawable.ic_media_pause);
+        params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        params.addRule(CENTER_VERTICAL);
+        button.setLayoutParams(params);
+
+
+        // Init the score
+        score = new TextView(context);
+        params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        params.addRule(CENTER_IN_PARENT);
+        score.setLayoutParams(params);
+        score.setTextSize(40);
+
+        addView(score);
+        addView(button);
     }
-    
+
     public void setScore(String newScore) {
-        score = newScore;
-        invalidate();
-    }
-
-    @Override
-    public void onDraw(Canvas c) {
-        c.drawColor(Color.CYAN);
-        c.drawText(score, c.getWidth() / 2 - getScoreWidth() / 2, paint.getTextSize(), paint);
-    }
-
-    private float getScoreWidth() {
-        float[] widths = new float[score.length()];
-        paint.getTextWidths(score, widths);
-        float w = 0;
-        for(float f: widths)
-            w += f;
-        return w;
+        score.setText(newScore);
     }
 }
