@@ -24,7 +24,7 @@ public class GameController {
     public GameController(Context context) {
         gameModel = new GameModel();
         gameView = new GameView(context, this);
-        userInterface = new GameUI(context);
+        userInterface = new GameUI(context, this);
 
         layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -43,18 +43,27 @@ public class GameController {
     public void startThread() {
         mainLoopThread = new GameThread(gameModel, gameView);
         mainLoopThread.setRunning(true);
+        userInterface.setRunning(true);
         mainLoopThread.start();
     }
 
     public void stopThread() {
         boolean retry = true;
         mainLoopThread.setRunning(false);
+        userInterface.setRunning(false);
         while (retry) {
             try {
                 mainLoopThread.join();
                 retry = false;
             } catch (InterruptedException e) {}
         }
+    }
+
+    public void togglePause() {
+        if(mainLoopThread.isRunning())
+            stopThread();
+        else
+            startThread();
     }
 
     public void onTouchEvent(MotionEvent event) {

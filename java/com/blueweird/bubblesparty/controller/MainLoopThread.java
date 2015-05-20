@@ -41,6 +41,10 @@ public abstract class MainLoopThread extends Thread {
         }
     }
 
+    public boolean isRunning() {
+        return running;
+    }
+
     protected abstract void loop();
     protected abstract void draw();
 }

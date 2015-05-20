@@ -1,9 +1,12 @@
 package com.blueweird.bubblesparty.view;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.blueweird.bubblesparty.controller.GameController;
 
 /**
  * Created by blueweird on 12/05/2015.
@@ -13,8 +16,8 @@ public class GameUI extends UserInterface {
     TextView score;
     ImageButton button;
 
-    public GameUI(Context context) {
-        super(context);
+    public GameUI(Context context, GameController ctrl) {
+        super(context, ctrl);
 
         layout = new RelativeLayout(context);
         LayoutParams params;
@@ -26,6 +29,12 @@ public class GameUI extends UserInterface {
         params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         params.addRule(CENTER_VERTICAL);
         button.setLayoutParams(params);
+        button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.togglePause();
+            }
+        });
 
 
         // Init the score
@@ -37,6 +46,13 @@ public class GameUI extends UserInterface {
 
         addView(score);
         addView(button);
+    }
+
+    public void setRunning(boolean running) {
+        if (running)
+            button.setImageResource(android.R.drawable.ic_media_pause);
+        else
+            button.setImageResource(android.R.drawable.ic_media_play);
     }
 
     public void setScore(String newScore) {
