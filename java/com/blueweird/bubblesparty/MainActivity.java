@@ -3,17 +3,16 @@ package com.blueweird.bubblesparty;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.view.SurfaceView;
 
 import com.blueweird.bubblesparty.controller.GameController;
+import com.blueweird.bubblesparty.view.MainMenu;
 
 
 public class MainActivity extends Activity {
 
-    private SurfaceView mainView;
+    private MainMenu mainMenu;
     private GameController controller;
 
-    // TODO: Add the UI with score and buttons
     // TODO: Create a menu
     // TODO: Optimize memory with sprite loads
 
@@ -28,17 +27,17 @@ public class MainActivity extends Activity {
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        // Running the game
-        controller = new GameController(this);
+        mainMenu = new MainMenu(this);
 
         // Set the view
-        setContentView(controller.getLayout());
+        setContentView(mainMenu);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        controller.stopThread();
+        if(controller != null)
+            controller.stopThread();
     }
 
 //    @Override
@@ -46,4 +45,8 @@ public class MainActivity extends Activity {
 //        super.onDestroy();
 //        controller.getGameView().destroyDrawingCache();
 //    }
+
+    public void setController(GameController gc) {
+        controller = gc;
+    }
 }
