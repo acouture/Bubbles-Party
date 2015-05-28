@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Bubbles Party</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="new_game">Nouvelle partie</string>
+    <string name="resume">Continuer</string>
+    <string name="quit">Quitter</string>
+</resources>

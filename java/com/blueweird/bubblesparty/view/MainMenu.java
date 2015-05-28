@@ -29,7 +29,7 @@ public class MainMenu extends RelativeLayout {
         int height = context.getResources().getDisplayMetrics().heightPixels;
 
         bNewGame = new Button(context);
-        bNewGame.setText("Nouvelle partie");
+        bNewGame.setText(R.string.new_game);
         bNewGame.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,7 +42,7 @@ public class MainMenu extends RelativeLayout {
         addView(bNewGame, params);
 
         bResumeGame = new Button(context);
-        bResumeGame.setText("Continuer");
+        bResumeGame.setText(R.string.resume);
         bResumeGame.setEnabled(app.isController());
         bResumeGame.setOnClickListener(new OnClickListener() {
             @Override
@@ -56,7 +56,7 @@ public class MainMenu extends RelativeLayout {
         addView(bResumeGame, params);
 
         bQuit = new Button(context);
-        bQuit.setText("Quitter");
+        bQuit.setText(R.string.quit);
         bQuit.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
