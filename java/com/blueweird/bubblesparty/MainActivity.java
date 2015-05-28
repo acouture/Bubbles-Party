@@ -42,6 +42,18 @@ public class MainActivity extends Activity {
             controller.stopThread();
     }
 
+    @Override
+    public void onBackPressed() {
+        if(inGame) {
+            controller.stopThread();
+            inGame = false;
+            setContentView(mainMenu);
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
+
 //    @Override
 //    protected void onDestroy() {
 //        super.onDestroy();
