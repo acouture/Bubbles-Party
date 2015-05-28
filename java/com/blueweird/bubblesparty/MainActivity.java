@@ -14,7 +14,6 @@ public class MainActivity extends Activity {
     private GameController controller;
     private boolean inGame;
 
-    // TODO: Create a menu
     // TODO: Optimize memory with sprite loads
 
     @Override
