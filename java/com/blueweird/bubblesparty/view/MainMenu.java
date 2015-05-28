@@ -8,7 +8,6 @@ import android.widget.RelativeLayout;
 
 import com.blueweird.bubblesparty.MainActivity;
 import com.blueweird.bubblesparty.R;
-import com.blueweird.bubblesparty.controller.GameController;
 
 /**
  * Created by blueweird on 27/05/2015.
@@ -16,7 +15,8 @@ import com.blueweird.bubblesparty.controller.GameController;
 public class MainMenu extends RelativeLayout {
     MainActivity app;
     Button bQuit;
-    Button bPlay;
+    Button bNewGame;
+    Button bResumeGame;
 
     public MainMenu(final Context context) {
         super(context);
@@ -26,17 +26,34 @@ public class MainMenu extends RelativeLayout {
         LayoutParams params;
         setBackgroundResource(R.drawable.background);
 
-        bPlay = new Button(context);
-        bPlay.setText("Jouer");
-        bPlay.setOnClickListener(new OnClickListener() {
+        int height = context.getResources().getDisplayMetrics().heightPixels;
+
+        bNewGame = new Button(context);
+        bNewGame.setText("Nouvelle partie");
+        bNewGame.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                app.runGame();
+                app.newGame();
             }
         });
         params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.addRule(CENTER_IN_PARENT);
-        addView(bPlay, params);
+        params.addRule(CENTER_HORIZONTAL);
+        params.setMargins(0, (int) (height / 2 - 0.05 * height), 0, 0);
+        addView(bNewGame, params);
+
+        bResumeGame = new Button(context);
+        bResumeGame.setText("Continuer");
+        bResumeGame.setEnabled(app.isController());
+        bResumeGame.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                app.resumeGame();
+            }
+        });
+        params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(CENTER_HORIZONTAL);
+        params.setMargins(0, (int) (height / 2 + 0.05 * height), 0, 0);
+        addView(bResumeGame, params);
 
         bQuit = new Button(context);
         bQuit.setText("Quitter");
@@ -51,5 +68,9 @@ public class MainMenu extends RelativeLayout {
         params.addRule(ALIGN_PARENT_BOTTOM);
         params.setMargins(0, 0, 0, 100);
         addView(bQuit, params);
+    }
+
+    public void refresh() {
+        bResumeGame.setEnabled(app.isController());
     }
 }

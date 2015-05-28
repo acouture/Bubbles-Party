@@ -47,6 +47,7 @@ public class MainActivity extends Activity {
         if(inGame) {
             controller.stopThread();
             inGame = false;
+            mainMenu.refresh();
             setContentView(mainMenu);
         }
         else {
@@ -60,9 +61,20 @@ public class MainActivity extends Activity {
 //        controller.getGameView().destroyDrawingCache();
 //    }
 
-    public void runGame() {
+    public void newGame() {
         controller = new GameController(this);
         inGame = true;
         setContentView(controller.getLayout());
+    }
+
+    public void resumeGame() {
+        inGame = true;
+        setContentView(controller.getLayout());
+    }
+
+    public boolean isController() {
+        if(controller == null)
+            return false;
+        return true;
     }
 }
