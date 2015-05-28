@@ -3,8 +3,6 @@ package com.blueweird.bubblesparty;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.blueweird.bubblesparty.controller.GameController;
 import com.blueweird.bubblesparty.view.MainMenu;
@@ -56,17 +54,11 @@ public class MainActivity extends Activity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-
-        return true;
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        controller.getGameView().destroyDrawingCache();
+//    }
 
     public void newGame() {
         controller = new GameController(this);
