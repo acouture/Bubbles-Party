@@ -20,6 +20,7 @@ public class MainMenu extends RelativeLayout {
     Button bNewGame;
     Button bResumeGame;
     TextView tvVersion;
+    TextView tvTitle;
 
     public MainMenu(final Context context) {
         super(context);
@@ -30,6 +31,14 @@ public class MainMenu extends RelativeLayout {
         setBackgroundResource(R.drawable.background);
 
         int height = context.getResources().getDisplayMetrics().heightPixels;
+
+        tvTitle = new TextView(context);
+        tvTitle.setText(R.string.app_name);
+        tvTitle.setTextSize(45);
+        params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(CENTER_HORIZONTAL);
+        params.setMargins(0, (int) (0.2 * height), 0, 0);
+        addView(tvTitle, params);
 
         bNewGame = new Button(context);
         bNewGame.setText(R.string.new_game);
