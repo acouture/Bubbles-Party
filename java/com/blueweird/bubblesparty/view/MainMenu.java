@@ -1,10 +1,12 @@
 package com.blueweird.bubblesparty.view;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.blueweird.bubblesparty.MainActivity;
 import com.blueweird.bubblesparty.R;
@@ -17,6 +19,7 @@ public class MainMenu extends RelativeLayout {
     Button bQuit;
     Button bNewGame;
     Button bResumeGame;
+    TextView tvVersion;
 
     public MainMenu(final Context context) {
         super(context);
@@ -68,6 +71,18 @@ public class MainMenu extends RelativeLayout {
         params.addRule(ALIGN_PARENT_BOTTOM);
         params.setMargins(0, 0, 0, 100);
         addView(bQuit, params);
+
+        tvVersion = new TextView(context);
+        try {
+            tvVersion.setText(app.getPackageManager().getPackageInfo(app.getPackageName(), 0).versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(ALIGN_PARENT_BOTTOM);
+        params.addRule(ALIGN_PARENT_RIGHT);
+        params.setMargins(5, 5, 5, 5);
+        addView(tvVersion, params);
     }
 
     public void refresh() {
