@@ -12,6 +12,7 @@ public class MainActivity extends Activity {
 
     private MainMenu mainMenu;
     private GameController controller;
+    private boolean inGame;
 
     // TODO: Create a menu
     // TODO: Optimize memory with sprite loads
@@ -28,6 +29,7 @@ public class MainActivity extends Activity {
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mainMenu = new MainMenu(this);
+        inGame = false;
 
         // Set the view
         setContentView(mainMenu);
@@ -36,7 +38,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(controller != null)
+        if(inGame)
             controller.stopThread();
     }
 
@@ -46,7 +48,9 @@ public class MainActivity extends Activity {
 //        controller.getGameView().destroyDrawingCache();
 //    }
 
-    public void setController(GameController gc) {
-        controller = gc;
+    public void runGame() {
+        controller = new GameController(this);
+        inGame = true;
+        setContentView(controller.getLayout());
     }
 }

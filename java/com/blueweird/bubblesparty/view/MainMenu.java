@@ -31,9 +31,7 @@ public class MainMenu extends RelativeLayout {
         bPlay.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                GameController gameController = new GameController(app);
-                app.setController(gameController);
-                app.setContentView(gameController.getLayout());
+                app.runGame();
             }
         });
         params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
