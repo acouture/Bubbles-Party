@@ -53,8 +53,8 @@ public class Bubble {
 
         Random rnd = new Random();
         // Get random speed
-        speedX = rnd.nextInt(MAX_SPEED - MIN_SPEED) + MIN_SPEED;
-        speedY = rnd.nextInt(MAX_SPEED - MIN_SPEED) + MIN_SPEED;
+        int majorSpeed = rnd.nextInt(MAX_SPEED - MIN_SPEED + 1) + MIN_SPEED + 1;
+        int minorSpeed = rnd.nextInt(majorSpeed - MIN_SPEED) + MIN_SPEED;
         if(rnd.nextInt(2) == 0)
             speedX = -speedX;
         if(rnd.nextInt(2) == 0)
@@ -63,15 +63,21 @@ public class Bubble {
         // Get random position
         int pos1 = rnd.nextInt(screenWidth + screenHeight);
         boolean alpha = rnd.nextBoolean(); // To choose top or bot OR left or right
+        // top or bot
         if(pos1 < screenWidth) {
             posX = pos1;
+            speedY = majorSpeed;
+            speedX = minorSpeed;
             if(alpha)
                 posY = -height;
             else
                 posY = screenHeight;
         }
+        // left or right
         else {
             posY = pos1 - screenWidth;
+            speedX = majorSpeed;
+            speedY = minorSpeed;
             if(alpha)
                 posX = -width;
             else
