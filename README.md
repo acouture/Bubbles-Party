@@ -14,3 +14,4 @@ Bu-Bu-Bu-Bubbles breaker !
 
 ## Others optionnal addition
 * Make a lift ! (get better images)
+* Optimize memory by charging images only 1 time and use sprites

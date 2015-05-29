@@ -14,8 +14,6 @@ public class MainActivity extends Activity {
     private GameController controller;
     private boolean inGame;
 
-    // TODO: Optimize memory with sprite loads
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
