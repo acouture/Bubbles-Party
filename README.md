@@ -9,7 +9,6 @@ Bu-Bu-Bu-Bubbles breaker !
 * Create a real gameplay !
 
 ### Improvements/patchs
-* Spawn bubbles out of screen
 * Found why the game always run when it resume, even if it was paused
 
 ## Others optionnal addition
