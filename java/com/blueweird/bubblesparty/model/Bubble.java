@@ -51,10 +51,8 @@ public class Bubble {
         width = sprite.getWidth();
         height = sprite.getHeight();
 
-        // Get random position and speed
         Random rnd = new Random();
-        posX = rnd.nextInt(gameView.getWidth() - width);
-        posY = rnd.nextInt(gameView.getHeight() - height);
+        // Get random speed
         speedX = rnd.nextInt(MAX_SPEED - MIN_SPEED) + MIN_SPEED;
         speedY = rnd.nextInt(MAX_SPEED - MIN_SPEED) + MIN_SPEED;
         if(rnd.nextInt(2) == 0)
@@ -62,15 +60,36 @@ public class Bubble {
         if(rnd.nextInt(2) == 0)
             speedY = -speedY;
 
+        // Get random position
+        int pos1 = rnd.nextInt(screenWidth + screenHeight);
+        boolean alpha = rnd.nextBoolean(); // To choose top or bot OR left or right
+        if(pos1 < screenWidth) {
+            posX = pos1;
+            if(alpha)
+                posY = -height;
+            else
+                posY = screenHeight;
+        }
+        else {
+            posY = pos1 - screenWidth;
+            if(alpha)
+                posX = -width;
+            else
+                posX = screenWidth;
+        }
     }
 
     public void update() {
-        if (posX >= screenWidth - width - speedX || posX + speedX <= 0) {
-            speedX = -speedX;
+        if(posX + speedX <= 0)
+            speedX = Math.abs(speedX);
+        if (posX >= screenWidth - width - speedX) {
+            speedX = -Math.abs(speedX);
         }
         posX = posX + speedX;
-        if (posY >= screenHeight - height - speedY || posY + speedY <= 0) {
-            speedY = -speedY;
+        if(posY + speedY <= 0)
+            speedY = Math.abs(speedY);
+        if (posY >= screenHeight - height - speedY) {
+            speedY = -Math.abs(speedY);
         }
         posY = posY + speedY;
         sprite.setPos(posX, posY);
