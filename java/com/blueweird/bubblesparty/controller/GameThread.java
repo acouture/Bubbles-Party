@@ -25,7 +25,7 @@ public class GameThread extends MainLoopThread {
         this.gameView = gameView;
         rnd = new Random();
         spawnRate = 0;
-        spawnRateInc = 10;
+        spawnRateInc = 30;
     }
 
     @Override
@@ -35,7 +35,8 @@ public class GameThread extends MainLoopThread {
             createBubble(rnd.nextInt(4));
             spawnRate = 0;
         }
-        spawnRate += spawnRateInc;
+        else
+            spawnRate += spawnRateInc;
         gameModel.update();
     }
 
