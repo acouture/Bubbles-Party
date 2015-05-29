@@ -11,8 +11,8 @@ import java.util.Random;
  */
 public class Bubble {
     // direction = 0 up, 1 left, 2 down, 3 right,
-    private static final int MAX_SPEED = 8;
-    private static final int MIN_SPEED = 3;
+    private static final int MAX_SPEED = 12;
+    private static final int MIN_SPEED = 4;
 
     private int color;
     private Sprite sprite;
