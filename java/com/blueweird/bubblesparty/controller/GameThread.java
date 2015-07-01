@@ -42,10 +42,12 @@ public class GameThread extends MainLoopThread {
 
         if (time % (30 * FPS) == 0) {
             while(gameModel.setBonus(rnd.nextInt(4)) == gameModel.getMalus());
+            System.out.println("Bonus = " + gameModel.getBonus());
         }
         if (time % (60 * FPS) == 0) {
             gameModel.setMalus(rnd.nextInt(4));
             time = 0;
+            System.out.println("Malus = " + gameModel.getMalus());
         }
         gameModel.update();
         time ++;
@@ -69,7 +71,6 @@ public class GameThread extends MainLoopThread {
     private boolean createBubble(int bubble_color) {
         Bubble bubble = new Bubble(bubble_color, gameView);
         gameModel.addBubble(bubble);
-        gameView.addSprite(bubble.getSprite());
         return true;
     }
 }

@@ -15,6 +15,8 @@ public class Bubble {
     private static final int MIN_SPEED = 4;
 
     private int color;
+    private int lifetime = 5; // seconds
+    private long deathTime;
     private Sprite sprite;
 
     private int posX;
@@ -29,6 +31,7 @@ public class Bubble {
 
     public Bubble(int c, GameView gameView) {
         color = c;
+        deathTime = System.currentTimeMillis() + lifetime * 1000;
         screenWidth = gameView.getWidth();
         screenHeight = gameView.getHeight();
 
@@ -85,7 +88,10 @@ public class Bubble {
         }
     }
 
-    public void update() {
+    public boolean update() {
+        if(deathTime < System.currentTimeMillis())
+            return false;
+
         if(posX + speedX <= 0)
             speedX = Math.abs(speedX);
         if (posX >= screenWidth - width - speedX) {
@@ -99,6 +105,8 @@ public class Bubble {
         }
         posY = posY + speedY;
         sprite.setPos(posX, posY);
+
+        return true;
     }
 
     public boolean isCollision(float x2, float y2) {

@@ -9,19 +9,26 @@ import java.util.List;
  */
 public class GameModel {
     private List<Bubble> bubbles;
+    private List<Integer> deadBubblesIndex;
     private Integer score;
     private int bonus;
     private int malus;
 
     public GameModel() {
         bubbles = new ArrayList<>();
+        deadBubblesIndex = new ArrayList<>();
         score = 0;
     }
 
     public void update() {
         for(Bubble bubble: bubbles) {
-            bubble.update();
+            if(!bubble.update())
+                deadBubblesIndex.add(bubbles.indexOf(bubble));
         }
+        for(int bubble: deadBubblesIndex) {
+            removeBubble(bubble);
+        }
+        deadBubblesIndex.clear();
     }
 
     public void addBubble(Bubble bubble) {

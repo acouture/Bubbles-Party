@@ -89,7 +89,6 @@ public class GameController {
     }
 
     public void spriteTouched(int num) {
-        gameView.removeSprite(num);
         int color = gameModel.getBubbles().get(num).getColor();
         gameModel.removeBubble(num);
         if(color == gameModel.getBonus())
@@ -99,6 +98,10 @@ public class GameController {
         else
             gameModel.incScore(1);
         userInterface.setScore(gameModel.getScore().toString());
+    }
+
+    public GameModel getGameModel() {
+        return gameModel;
     }
 
     public GameView getGameView() {

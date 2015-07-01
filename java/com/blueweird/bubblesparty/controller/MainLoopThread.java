@@ -1,8 +1,5 @@
 package com.blueweird.bubblesparty.controller;
 
-import com.blueweird.bubblesparty.model.GameModel;
-import com.blueweird.bubblesparty.view.GameView;
-
 /**
  * Created by blueweird on 06/05/2015.
  */

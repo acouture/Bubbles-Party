@@ -11,9 +11,7 @@ import android.view.SurfaceView;
 
 import com.blueweird.bubblesparty.R;
 import com.blueweird.bubblesparty.controller.GameController;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.blueweird.bubblesparty.model.Bubble;
 
 /**
  * Created by blueweird on 06/05/2015.
@@ -21,14 +19,12 @@ import java.util.List;
 public class GameView extends SurfaceView {
     private Bitmap background;
     private Rect bgRect;
-    private List<Sprite> sprites;
     private GameController controller;
 
     public GameView(Context context, GameController gc) {
         super(context);
         controller = gc;
 
-        sprites = new ArrayList<>();
 
         // Set the background
         int screen_width = context.getResources().getDisplayMetrics().widthPixels;
@@ -63,19 +59,11 @@ public class GameView extends SurfaceView {
 //            temps.get(i).draw(canvas);
 //        }
 
-        for (Sprite sprite : sprites) {
-            sprite.draw(canvas);
+        for(Bubble bubble: controller.getGameModel().getBubbles()) {
+            bubble.getSprite().draw(canvas);
         }
 
 //        canvas.drawText("Score : " + score, 10, 50, score_paint);
-    }
-
-    public void removeSprite(int num) {
-        sprites.remove(num);
-    }
-
-    public void addSprite(Sprite sprite) {
-        sprites.add(sprite);
     }
 
     public boolean onTouchEvent(MotionEvent event) {
