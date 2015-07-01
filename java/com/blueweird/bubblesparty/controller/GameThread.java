@@ -15,9 +15,10 @@ public class GameThread extends MainLoopThread {
     private GameModel gameModel;
     private GameView gameView;
 
-    Random rnd;
-    int spawnRate;
-    int spawnRateInc;
+    private Random rnd;
+    private int spawnRate;
+    private int spawnRateInc;
+    private int time;
 
     public GameThread(GameModel gameModel, GameView gameView) {
         super();
@@ -26,6 +27,7 @@ public class GameThread extends MainLoopThread {
         rnd = new Random();
         spawnRate = 0;
         spawnRateInc = 30;
+        time = 0;
     }
 
     @Override
@@ -37,7 +39,16 @@ public class GameThread extends MainLoopThread {
         }
         else
             spawnRate += spawnRateInc;
+
+        if (time % (30 * FPS) == 0) {
+            while(gameModel.setBonus(rnd.nextInt(4)) == gameModel.getMalus());
+        }
+        if (time % (60 * FPS) == 0) {
+            gameModel.setMalus(rnd.nextInt(4));
+            time = 0;
+        }
         gameModel.update();
+        time ++;
     }
 
     @Override

@@ -10,6 +10,8 @@ import java.util.List;
 public class GameModel {
     private List<Bubble> bubbles;
     private Integer score;
+    private int bonus;
+    private int malus;
 
     public GameModel() {
         bubbles = new ArrayList<>();
@@ -40,6 +42,22 @@ public class GameModel {
 
     public Integer getScore() {
         return score;
+    }
+
+    public int getBonus() {
+        return bonus;
+    }
+
+    public int setBonus(int b) {
+        return bonus = b;
+    }
+
+    public int getMalus() {
+        return malus;
+    }
+
+    public int setMalus(int m) {
+        return malus = m;
     }
 
     public List<Bubble> getBubbles() {
