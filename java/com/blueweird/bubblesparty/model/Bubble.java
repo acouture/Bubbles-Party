@@ -15,8 +15,8 @@ public class Bubble {
     private static final int MIN_SPEED = 4;
 
     private int color;
-    private int lifetime = 5; // seconds
-    private long deathTime;
+    private int life;
+    private int lifetime;
     private Sprite sprite;
 
     private int posX;
@@ -29,28 +29,15 @@ public class Bubble {
     private int screenWidth;
     private int screenHeight;
 
-    public Bubble(int c, GameView gameView) {
+    public Bubble(int c, GameView gameView, int lifetime) {
         color = c;
-        deathTime = System.currentTimeMillis() + lifetime * 1000;
+        life = 0;
+        this.lifetime = lifetime;
+//        deathTime = System.currentTimeMillis() + lifetime;
         screenWidth = gameView.getWidth();
         screenHeight = gameView.getHeight();
 
-        switch(color) {
-            case 0:
-                sprite = new Sprite(R.drawable.bubble_blue, gameView);
-                break;
-            case 1:
-                sprite = new Sprite(R.drawable.bubble_green, gameView);
-                break;
-            case 2:
-                sprite = new Sprite(R.drawable.bubble_red, gameView);
-                break;
-            case 3:
-                sprite = new Sprite(R.drawable.bubble_yellow, gameView);
-                break;
-            default:
-                break;
-        }
+        sprite = new Sprite(colorToDrawable(color), gameView);
         width = sprite.getWidth();
         height = sprite.getHeight();
 
@@ -89,7 +76,7 @@ public class Bubble {
     }
 
     public boolean update() {
-        if(deathTime < System.currentTimeMillis())
+        if(life > lifetime)
             return false;
 
         if(posX + speedX <= 0)
@@ -106,6 +93,7 @@ public class Bubble {
         posY = posY + speedY;
         sprite.setPos(posX, posY);
 
+        life++;
         return true;
     }
 
@@ -119,5 +107,20 @@ public class Bubble {
 
     public Sprite getSprite() {
         return sprite;
+    }
+
+    public static int colorToDrawable(int color) {
+        switch(color) {
+            case 0:
+                return R.drawable.bubble_blue;
+            case 1:
+                return R.drawable.bubble_green;
+            case 2:
+                return R.drawable.bubble_red;
+            case 3:
+                return R.drawable.bubble_yellow;
+            default:
+                return R.mipmap.ic_launcher;
+        }
     }
 }

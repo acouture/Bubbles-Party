@@ -4,10 +4,13 @@ package com.blueweird.bubblesparty.controller;
  * Created by blueweird on 06/05/2015.
  */
 public abstract class MainLoopThread extends Thread {
-    protected static final long FPS = 20;
-    protected boolean running = false;
+    protected static final int FPS = 20;
+    protected boolean running;
+    protected boolean paused;
 
     public MainLoopThread() {
+        running = true;
+        paused = true;
     }
 
     public void setRunning(boolean run) {
@@ -16,30 +19,30 @@ public abstract class MainLoopThread extends Thread {
 
     @Override
     public void run() {
+        System.out.println("Run controller with pause = " + paused);
         long ticksPS = 1000 / FPS;
         long startTime;
         long sleepTime;
 
         while (running) {
-            startTime = System.currentTimeMillis();
+            if(!paused) {
+                startTime = System.currentTimeMillis();
 
-            // Does what the game has to do
-            loop();
-            draw();
+                // Does what the game has to do
+                loop();
+                draw();
 
-            // Sleep until the next frame to get the right FPS
-            sleepTime = ticksPS - (System.currentTimeMillis() - startTime);
-            try {
-                if (sleepTime > 0)
-                    sleep(sleepTime);
-                else
-                    sleep(10);
-            } catch (Exception e) {}
+                // Sleep until the next frame to get the right FPS
+                sleepTime = ticksPS - (System.currentTimeMillis() - startTime);
+                try {
+                    if (sleepTime > 0)
+                        sleep(sleepTime);
+                    else
+                        sleep(10);
+                } catch (Exception e) {
+                }
+            }
         }
-    }
-
-    public boolean isRunning() {
-        return running;
     }
 
     protected abstract void loop();

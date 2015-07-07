@@ -55,7 +55,7 @@ public class MainMenu extends RelativeLayout {
 
         bResumeGame = new Button(context);
         bResumeGame.setText(R.string.resume);
-        bResumeGame.setEnabled(app.isController());
+        bResumeGame.setEnabled(app.isGameModel());
         bResumeGame.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +95,6 @@ public class MainMenu extends RelativeLayout {
     }
 
     public void refresh() {
-        bResumeGame.setEnabled(app.isController());
+        bResumeGame.setEnabled(app.isGameModel());
     }
 }

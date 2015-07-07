@@ -18,6 +18,6 @@ Bu-Bu-Bu-Bubbles breaker !
 ## Actual bugs encountered
 * java.util.ConcurrentModificationException
             at java.util.ArrayList$ArrayListIterator.next(ArrayList.java:573)
-            at com.blueweird.bubblesparty.model.GameModel.update(GameModel.java:20)
+            at removeDeadBubbles(GameModel.java:20)
             at com.blueweird.bubblesparty.controller.GameThread.loop(GameThread.java:40)
             at com.blueweird.bubblesparty.controller.MainLoopThread.run(MainLoopThread.java:30)

@@ -36,4 +36,8 @@ public class Sprite {
     public int getHeight() {
         return height;
     }
+
+    public Bitmap getBmp() {
+        return bmp;
+    }
 }

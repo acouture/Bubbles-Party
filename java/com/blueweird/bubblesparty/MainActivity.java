@@ -4,15 +4,15 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
-import com.blueweird.bubblesparty.controller.GameController;
+import com.blueweird.bubblesparty.model.GameModel;
 import com.blueweird.bubblesparty.view.MainMenu;
 
 
 public class MainActivity extends Activity {
 
     private MainMenu mainMenu;
-    private GameController controller;
-    private boolean inGame;
+    private GameModel gameModel;
+//    private boolean inGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mainMenu = new MainMenu(this);
-        inGame = false;
+//        inGame = false;
 
         // Set the view
         setContentView(mainMenu);
@@ -35,15 +35,15 @@ public class MainActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(inGame)
-            controller.stopThread();
+        if(gameModel.isInGame())
+            gameModel.pauseGame();
     }
 
     @Override
     public void onBackPressed() {
-        if(inGame) {
-            controller.stopThread();
-            inGame = false;
+        if(gameModel.isInGame()) {
+            gameModel.stopGame();
+//            inGame = false;
             mainMenu.refresh();
             setContentView(mainMenu);
         }
@@ -59,18 +59,23 @@ public class MainActivity extends Activity {
 //    }
 
     public void newGame() {
-        controller = new GameController(this);
-        inGame = true;
-        setContentView(controller.getLayout());
+        gameModel = new GameModel(this);
+        gameModel.initGame();
+//        controller = new GameController(this);
+//        inGame = true;
+        setContentView(gameModel.getView());
+        gameModel.playGame();
     }
 
     public void resumeGame() {
-        inGame = true;
-        setContentView(controller.getLayout());
+//        inGame = true;
+        // TODO: When resume with paused = true, game run like paused is false ...
+        gameModel.initGame();
+        setContentView(gameModel.getView());
     }
 
-    public boolean isController() {
-        if(controller == null)
+    public boolean isGameModel() {
+        if(gameModel == null)
             return false;
         return true;
     }
