@@ -33,14 +33,14 @@ public class MainActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(gameModel != null)
+        if(isGameModel())
             if(gameModel.isInGame())
                 gameModel.pauseGame();
     }
 
     @Override
     public void onBackPressed() {
-        if(gameModel != null) {
+        if(isGameModel()) {
             if (gameModel.isInGame()) {
                 gameModel.stopGame();
                 mainMenu.refresh();
