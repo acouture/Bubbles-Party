@@ -13,10 +13,6 @@ public abstract class MainLoopThread extends Thread {
         paused = true;
     }
 
-    public void setRunning(boolean run) {
-        running = run;
-    }
-
     @Override
     public void run() {
         System.out.println("Run controller with pause = " + paused);
@@ -46,5 +42,5 @@ public abstract class MainLoopThread extends Thread {
     }
 
     protected abstract void loop();
-    protected abstract void draw();
+    public abstract void draw();
 }

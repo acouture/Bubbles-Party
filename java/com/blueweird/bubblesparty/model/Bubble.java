@@ -33,11 +33,10 @@ public class Bubble {
         color = c;
         life = 0;
         this.lifetime = lifetime;
-//        deathTime = System.currentTimeMillis() + lifetime;
         screenWidth = gameView.getWidth();
         screenHeight = gameView.getHeight();
 
-        sprite = new Sprite(colorToDrawable(color), gameView);
+        sprite = new Sprite(colorToResource(color), gameView);
         width = sprite.getWidth();
         height = sprite.getHeight();
 
@@ -109,7 +108,7 @@ public class Bubble {
         return sprite;
     }
 
-    public static int colorToDrawable(int color) {
+    public static int colorToResource(int color) {
         switch(color) {
             case 0:
                 return R.drawable.bubble_blue;

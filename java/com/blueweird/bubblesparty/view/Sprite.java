@@ -11,13 +11,9 @@ public class Sprite {
     private Bitmap bmp;
     private int posX;
     private int posY;
-    private int width;
-    private int height;
 
     public Sprite(int resource, GameView gameView) {
         bmp = BitmapFactory.decodeResource(gameView.getResources(), resource);
-        width = bmp.getWidth();
-        height = bmp.getHeight();
     }
 
     public void setPos(int x, int y) {
@@ -30,11 +26,11 @@ public class Sprite {
     }
 
     public int getWidth() {
-        return width;
+        return bmp.getWidth();
     }
 
     public int getHeight() {
-        return height;
+        return bmp.getHeight();
     }
 
     public Bitmap getBmp() {

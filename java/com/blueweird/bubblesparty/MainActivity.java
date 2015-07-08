@@ -12,7 +12,6 @@ public class MainActivity extends Activity {
 
     private MainMenu mainMenu;
     private GameModel gameModel;
-//    private boolean inGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +25,6 @@ public class MainActivity extends Activity {
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mainMenu = new MainMenu(this);
-//        inGame = false;
 
         // Set the view
         setContentView(mainMenu);
@@ -43,7 +41,6 @@ public class MainActivity extends Activity {
     public void onBackPressed() {
         if(gameModel.isInGame()) {
             gameModel.stopGame();
-//            inGame = false;
             mainMenu.refresh();
             setContentView(mainMenu);
         }
@@ -61,14 +58,11 @@ public class MainActivity extends Activity {
     public void newGame() {
         gameModel = new GameModel(this);
         gameModel.initGame();
-//        controller = new GameController(this);
-//        inGame = true;
         setContentView(gameModel.getView());
         gameModel.playGame();
     }
 
     public void resumeGame() {
-//        inGame = true;
         // TODO: When resume with paused = true, game run like paused is false ...
         gameModel.initGame();
         setContentView(gameModel.getView());

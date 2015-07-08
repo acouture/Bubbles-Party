@@ -1,84 +1,120 @@
 package com.blueweird.bubblesparty.view;
 
 import android.content.Context;
-import android.view.View;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.blueweird.bubblesparty.controller.GameController;
 
 /**
  * Created by blueweird on 12/05/2015.
  */
-public class UserInterface extends RelativeLayout {
+public class UserInterface extends SurfaceView {
     private GameController controller;
-//    private RelativeLayout layout;
-    private TextView score;
-    private ImageView bonus;
-    private TextView malus;
-    private ImageButton button;
+
+    private String strScore;
+    private Bitmap bmpBonus;
+    private Bitmap bmpMalus;
+    private Bitmap bmpPause;
+    private Paint paint;
+    private float uiHeight;
 
     public UserInterface(Context context, GameController ctrl) {
         super(context);
 
         controller = ctrl;
-//        layout = new RelativeLayout(context);
 
-        int uiSize = (int) (0.1 * context.getResources().getDisplayMetrics().heightPixels);
-        setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, uiSize));
+        uiHeight = (int) (0.1 * context.getResources().getDisplayMetrics().heightPixels);
+        setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) uiHeight));
 
-        LayoutParams params;
+        strScore = new String();
+        paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(80);
 
-        // Init the pause button
-        button = new ImageButton(context);
-        button.setImageResource(android.R.drawable.ic_media_pause);
-        params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        params.addRule(CENTER_VERTICAL);
-        button.setLayoutParams(params);
-        button.setOnClickListener(new OnClickListener() {
+        // The callback for the holder to lock the surface
+        getHolder().addCallback(new SurfaceHolder.Callback() {
+
             @Override
-            public void onClick(View v) {
-                controller.togglePauseButton();
+            public void surfaceDestroyed(SurfaceHolder holder) {
+                controller.pauseGame();
+            }
+
+            @Override
+            public void surfaceCreated(SurfaceHolder holder) {
+                controller.playGame();
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder holder, int format,
+                                       int width, int height) {
             }
         });
-
-
-        // Init the score
-        score = new TextView(context);
-        params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        params.addRule(CENTER_IN_PARENT);
-        score.setLayoutParams(params);
-        score.setTextSize(40);
-
-        // Init the bonus / malus
-        bonus = new ImageView(context);
-//        malus = new TextView(context);
-        params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        params.addRule(ALIGN_PARENT_LEFT);
-        bonus.setLayoutParams(params);
-
-        addView(bonus);
-        addView(score);
-        addView(button);
     }
 
-    public void toggleIsPaused(boolean paused) {
-        if (paused)
-            button.setImageResource(android.R.drawable.ic_media_play);
+    public void updateBmpPause() {
+        if (controller.isPaused())
+            bmpPause = BitmapFactory.decodeResource(getResources(), android.R.drawable.ic_media_play);
         else
-            button.setImageResource(android.R.drawable.ic_media_pause);
+            bmpPause = BitmapFactory.decodeResource(getResources(), android.R.drawable.ic_media_pause);
+        float scale = uiHeight / bmpPause.getHeight();
+        bmpPause = rescaleBitmap(bmpPause, scale, scale);
     }
 
-    public void printScore(String newScore) {
-        score.setText(newScore);
+    public void setScore(String newScore) {
+        strScore = newScore;
     }
 
-    public void printBonus(int res) {
-        bonus.setImageResource(res);
+    public void setBonus(int res) {
+        bmpBonus = BitmapFactory.decodeResource(getResources(), res);
+        float scale = uiHeight / bmpBonus.getHeight();
+        bmpBonus = rescaleBitmap(bmpBonus, scale, scale);
+    }
+
+    public void setMalus(int res) {
+        bmpMalus = BitmapFactory.decodeResource(getResources(), res);
+        float scale = uiHeight / bmpMalus.getHeight();
+        bmpMalus = rescaleBitmap(bmpMalus, scale, scale);
+    }
+
+    private Bitmap rescaleBitmap(Bitmap bmp, float sx, float sy) {
+        return Bitmap.createScaledBitmap(bmp, (int) (sx * bmp.getWidth()), (int) (sy * bmp.getHeight()), false);
+    }
+
+    public void draw(Canvas canvas) {
+        canvas.drawColor(Color.LTGRAY);
+
+        paint.setTextSize(40);
+        canvas.drawBitmap(bmpBonus, 0, 0, null);
+        canvas.drawText("Bonus", 0, paint.getTextSize(), paint);
+
+        canvas.drawBitmap(bmpMalus, bmpBonus.getWidth(), 0, null);
+        canvas.drawText("Malus", bmpBonus.getWidth(), paint.getTextSize(), paint);
+
+        canvas.drawBitmap(bmpPause, getWidth() - bmpPause.getWidth(), 0, null);
+
+        paint.setTextSize(80);
+        canvas.drawText(strScore, getWidth() / 2, paint.getTextSize(), paint);
+    }
+
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            float x = event.getX();
+            float y = event.getY();
+            if (x > getWidth() - bmpPause.getWidth()) {
+                controller.togglePauseButton();
+                updateBmpPause();
+                controller.draw();
+            }
+        }
+        return true;
     }
 }

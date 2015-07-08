@@ -21,7 +21,6 @@ public class GameController extends MainLoopThread {
     private GameModel gameModel;
     private GameView gameView;
     private UserInterface userInterface;
-//    private MainLoopThread mainLoopThread;
 
     private Random rnd;
     private int spawnRate;
@@ -30,7 +29,6 @@ public class GameController extends MainLoopThread {
 
     public GameController(Context context, GameModel gm) {
         super();
-//        gameModel = new GameModel();
         gameModel = gm;
         gameView = new GameView(context, this);
         userInterface = new UserInterface(context, this);
@@ -44,12 +42,13 @@ public class GameController extends MainLoopThread {
         layout.addView(userInterface);
         layout.addView(gameView);
 
-        userInterface.printScore(gameModel.getScore().toString());
-
         rnd = new Random();
         spawnRate = 0;
         spawnRateInc = 30;
         time = 0;
+
+        userInterface.setScore(gameModel.getScore().toString());
+        userInterface.updateBmpPause();
     }
 
     @Override
@@ -63,21 +62,20 @@ public class GameController extends MainLoopThread {
             spawnRate += spawnRateInc;
 
         if (time % (30 * FPS) == 0) {
-            while(gameModel.setBonusColor(rnd.nextInt(4)) == gameModel.getMalusColor());
-            System.out.println("Bonus = " + gameModel.getBonusColor());
-            userInterface.printBonus(Bubble.colorToDrawable(gameModel.getBonusColor()));
-        }
-        if (time % (60 * FPS) == 0) {
             gameModel.setMalusColor(rnd.nextInt(4));
+            userInterface.setMalus(Bubble.colorToResource(gameModel.getMalusColor()));
             time = 0;
-            System.out.println("Malus = " + gameModel.getMalusColor());
+        }
+        if (time % (10 * FPS) == 0) {
+            while(gameModel.setBonusColor(rnd.nextInt(4)) == gameModel.getMalusColor());
+            userInterface.setBonus(Bubble.colorToResource(gameModel.getBonusColor()));
         }
         gameModel.removeDeadBubbles();
         time ++;
     }
 
     @Override
-    protected void draw() {
+    public void draw() {
         Canvas c = null;
         // Repaint the view with the canvas
         try {
@@ -92,32 +90,42 @@ public class GameController extends MainLoopThread {
                 gameView.getHolder().unlockCanvasAndPost(c);
             }
         }
+        c = null;
+        // Repaint the view with the canvas
+        try {
+            c = userInterface.getHolder().lockCanvas();
+            // TODO: c == null au lancement du thread, vérification avant draw() ??
+            if(c != null)
+                synchronized (userInterface.getHolder()) {
+                    userInterface.draw(c);
+                }
+        } finally {
+            if (c != null) {
+                userInterface.getHolder().unlockCanvasAndPost(c);
+            }
+        }
+
     }
 
     public void playGame() {
-//        mainLoopThread = new GameThread(gameModel, gameView);
-//        mainLoopThread.setRunning(true);
         paused = false;
         gameModel.setPaused(paused);
-        userInterface.toggleIsPaused(paused);
-//        mainLoopThread.start();
     }
 
     public void pauseGame() {
         paused = true;
         gameModel.setPaused(paused);
-        userInterface.toggleIsPaused(paused);
     }
 
     public void stopGame() {
         boolean retry = true;
-//        mainLoopThread.setRunning(false);
         running = false;
         while (retry) {
             try {
                 join();
                 retry = false;
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+            }
         }
         System.out.println("Exit controller with pause = " + paused);
 
@@ -134,6 +142,10 @@ public class GameController extends MainLoopThread {
             playGame();
         else
             pauseGame();
+    }
+
+    public boolean isPaused() {
+        return paused;
     }
 
     public void onTouchEvent(MotionEvent event) {
@@ -167,16 +179,12 @@ public class GameController extends MainLoopThread {
             gameModel.decScore(gameModel.getMalusPoint());
         else
             gameModel.incScore(gameModel.getStandardPoint());
-        userInterface.printScore(gameModel.getScore().toString());
+        userInterface.setScore(gameModel.getScore().toString());
     }
 
     public GameModel getGameModel() {
         return gameModel;
     }
-
-//    public GameView getGameView() {
-//        return gameView;
-//    }
 
     public LinearLayout getLayout() {
         return layout;
