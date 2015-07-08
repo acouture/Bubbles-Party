@@ -33,27 +33,27 @@ public class MainActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(gameModel.isInGame())
-            gameModel.pauseGame();
+        if(gameModel != null)
+            if(gameModel.isInGame())
+                gameModel.pauseGame();
     }
 
     @Override
     public void onBackPressed() {
-        if(gameModel.isInGame()) {
-            gameModel.stopGame();
-            mainMenu.refresh();
-            setContentView(mainMenu);
+        if(gameModel != null) {
+            if (gameModel.isInGame()) {
+                gameModel.stopGame();
+                mainMenu.refresh();
+                setContentView(mainMenu);
+            }
+            else {
+                super.onBackPressed();
+            }
         }
         else {
             super.onBackPressed();
         }
     }
-
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        controller.getGameView().destroyDrawingCache();
-//    }
 
     public void newGame() {
         gameModel = new GameModel(this);
