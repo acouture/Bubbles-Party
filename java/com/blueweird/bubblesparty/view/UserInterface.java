@@ -111,7 +111,6 @@ public class UserInterface extends SurfaceView {
             float y = event.getY();
             if (x > getWidth() - bmpPause.getWidth()) {
                 controller.togglePauseButton();
-                updateBmpPause();
                 controller.draw();
             }
         }

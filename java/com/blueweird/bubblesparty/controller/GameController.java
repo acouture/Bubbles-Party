@@ -48,7 +48,6 @@ public class GameController extends MainLoopThread {
         time = 0;
 
         userInterface.setScore(gameModel.getScore().toString());
-        userInterface.updateBmpPause();
     }
 
     @Override
@@ -110,11 +109,13 @@ public class GameController extends MainLoopThread {
     public void playGame() {
         paused = false;
         gameModel.setPaused(paused);
+        userInterface.updateBmpPause();
     }
 
     public void pauseGame() {
         paused = true;
         gameModel.setPaused(paused);
+        userInterface.updateBmpPause();
     }
 
     public void stopGame() {
