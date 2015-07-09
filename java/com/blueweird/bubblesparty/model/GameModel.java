@@ -68,9 +68,9 @@ public class GameModel {
     }
 
     public void removeDeadBubbles() {
-        for(Bubble bubble: bubbles) {
-            if(!bubble.update())
-                deadBubblesIndex.add(bubbles.indexOf(bubble));
+        for(int i = 0 ; i < bubbles.size() ; i++) {
+            if(!bubbles.get(i).update())
+                deadBubblesIndex.add(i);
         }
         for(int index: deadBubblesIndex) {
             bubbles.remove(index);
