@@ -25,7 +25,12 @@ public class MainActivity extends Activity {
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mainMenu = new MainMenu(this);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mainMenu.refresh();
         // Set the view
         setContentView(mainMenu);
     }
@@ -36,6 +41,14 @@ public class MainActivity extends Activity {
         if(isGameModel())
             if(gameModel.isInGame())
                 gameModel.pauseGame();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(isGameModel())
+            if(gameModel.isInGame())
+                gameModel.stopGame();
     }
 
     @Override
